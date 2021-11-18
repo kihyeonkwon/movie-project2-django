@@ -8,10 +8,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import generics
 from django.contrib.auth import get_user_model
+from rest_framework import permissions
 
 
 
 class ReviewList(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get(self, request, format=None):
         reviews = Review.objects.all()
         serializer = ReviewListSerializer(reviews, many=True)
@@ -29,6 +31,7 @@ class ReviewList(APIView):
 
 
 class ReviewDetail(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
         try:
@@ -55,6 +58,7 @@ class ReviewClap(APIView):
 
 
 class Comment(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def post(self, request, pk, format=None):
         serializer = CommentSerializer(data=request.data)
         print(serializer)
